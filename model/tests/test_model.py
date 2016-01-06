@@ -31,6 +31,10 @@ class TestCreatingAndAccessingModelProperties(unittest.TestCase):
     with self.assertRaises(AttributeError):
       user = self.User(5)
 
+  def test_getting_name_of_the_fields(self):
+    self.assertEqual(len(self.User.field_names), 2)
+    self.assertIn("username", self.User.field_names)
+    self.assertIn("password", self.User.field_names)
 
 class TestModelValidations(unittest.TestCase):
 

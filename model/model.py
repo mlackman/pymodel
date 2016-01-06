@@ -5,12 +5,12 @@ class Model(type):
 
   def __new__(meta, name, bases, clsdict):
     cls = super(Model, meta).__new__(meta, name, bases, clsdict)
-    field_names = []
+    cls.field_names = []
     for name, field in clsdict.items():
       if isinstance(field, Field):
         if field.attribute_name is None:
           field.attribute_name = name
-        field_names.append(name)
+        cls.field_names.append(name)
 
     error_fields = []
 
@@ -19,12 +19,12 @@ class Model(type):
         raise AttributeError("class '%s' __init__ does not take non keyword arguments" % self.__class__.__name__)
       attributes = set()
       attributes.update(kwargs.keys())
-      attributes.update(field_names)
+      attributes.update(self.__class__.field_names)
       self._error_fields = []
 
       for name in attributes:
         # Add [fieldname]_errors to object attributes, where error messages for specific field is added
-        if name in field_names:
+        if name in self.__class__.field_names:
           error_field_name = name + "_errors"
           setattr(self, error_field_name, [])
           self._error_fields.append(error_field_name)
@@ -37,6 +37,5 @@ class Model(type):
     cls.__init__ = __init__
     cls.has_errors = has_errors
     return cls
-
 
 
