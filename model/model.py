@@ -16,7 +16,7 @@ class Model(type):
 
     def __init__(self, *args, **kwargs):
       if len(args) != 0:
-        raise AttributeError("class '%s' __init__ does not take non keyword arguments" % name)
+        raise AttributeError("class '%s' __init__ does not take non keyword arguments" % self.__class__.__name__)
       attributes = set()
       attributes.update(kwargs.keys())
       attributes.update(field_names)

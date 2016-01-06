@@ -27,6 +27,11 @@ class TestCreatingAndAccessingModelProperties(unittest.TestCase):
     self.assertEqual(user.username, "john")
     self.assertEqual(user.password, "pword")
 
+  def test_it_raises_exception_if_trying_to_create_model_with_args(self):
+    with self.assertRaises(AttributeError):
+      user = self.User(5)
+
+
 class TestModelValidations(unittest.TestCase):
 
   class User(metaclass=model.Model):
