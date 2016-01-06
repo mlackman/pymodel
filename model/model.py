@@ -28,7 +28,12 @@ class Model(type):
           error_field_name = name + "_errors"
           setattr(self, error_field_name, [])
           self._error_fields.append(error_field_name)
-        setattr(self, name, kwargs[name] if name in kwargs else None)
+
+        # Init the attrbiutes if kwargs given. This sametime validates the attrbitus
+        if kwargs.keys():
+          setattr(self, name, kwargs[name] if name in kwargs else None)
+        else:
+          setattr(self, "_" + name, None) # Maybe initializing belong to the field
 
     @property
     def has_errors(self):
